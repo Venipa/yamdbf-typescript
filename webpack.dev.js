@@ -14,7 +14,10 @@ module.exports = merge(common, {
           os.platform() === "win32"
             ? exec("taskkill /pid " + runner.pid + " /T /F")
             : runner.kill("SIGINT");
-        process.on("SIGINT", () => runner?.pid && killDiscordRunner());
+        process.on("SIGINT", () => {
+          runner?.pid && killDiscordRunner();
+          process.exit();
+        });
         return (compiler) => {
           compiler.hooks.afterEmit.tap("AfterEmitPlugin", (compilation) => {
             if (runner?.pid) killDiscordRunner();

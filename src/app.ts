@@ -1,9 +1,10 @@
 import { createClient } from "./core/client";
 import { resolve } from "path";
-import config from '../config.json';
-import { User } from "discord.js";
+import { Logger } from "@yamdbf/core";
 
 (async () => {
+  const config: any = await import("../config.json");
+  const log = Logger.instance("Client");
   const app = createClient({
     owner: config.owner,
     commandsDir: resolve(__dirname, "commands"),
@@ -11,7 +12,5 @@ import { User } from "discord.js";
     localeDir: resolve(__dirname, "locales"),
     token: config.token
   });
-  await app.login(config.token);  
-  console.log("Guilds: " + app.guilds.cache.size)
-  console.log("Owner: " + ((await app.fetchApplication()).owner as User).username)
+  await app.login(config.token);
 })();

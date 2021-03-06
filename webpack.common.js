@@ -45,6 +45,8 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
+    clean: true,
+    libraryTarget: 'commonjs2'
   },
   optimization: {
     concatenateModules: false, // set this to false

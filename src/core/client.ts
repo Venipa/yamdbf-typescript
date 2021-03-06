@@ -1,4 +1,5 @@
-import { Client, YAMDBFOptions } from "@yamdbf/core";
+import { Client, YAMDBFOptions, ListenerUtil } from "@yamdbf/core";
+import { ClientApplication } from "discord.js";
 
 
 export class MavisClient extends Client {
