@@ -2,9 +2,6 @@ const path = require("path");
 const glob = require("glob");
 const webpackNodeExternals = require("webpack-node-externals");
 const CopyPlugin = require("copy-webpack-plugin");
-const { spawn, spawnSync, exec } = require("child_process");
-const { kill } = require("process");
-const os = require("os");
 
 module.exports = {
   node: {
@@ -18,7 +15,7 @@ module.exports = {
     app: "./src/app.ts",
     ...glob
       .sync("./src/**/*.ts", {
-        ignore: ["./src/**/*.test.ts", "./src/**/*.d.ts"],
+        ignore: ["./src/**/*.test.ts", "./src/**/*.d.ts", "./src/core/**/*.ts"],
       })
       .reduce((acc, file) => {
         acc[
@@ -55,25 +52,6 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [{ from: "./src/locales", to: "locales" }],
-    }),
-    {
-      apply: (() => {
-        let runner;
-        const killDiscordRunner = () =>
-          os.platform() === "win32"
-            ? exec("taskkill /pid " + runner.pid + " /T /F")
-            : runner.kill("SIGINT");
-        process.on("SIGINT", () => runner?.pid && killDiscordRunner());
-        return (compiler) => {
-          compiler.hooks.afterEmit.tap("AfterEmitPlugin", (compilation) => {
-            if (runner?.pid) killDiscordRunner();
-              runner = spawn("node", ["dist\\app.js"], {
-                detached: true,
-                shell: true,
-              });
-          });
-        };
-      })(),
-    },
+    })
   ],
 };

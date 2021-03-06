@@ -7,9 +7,9 @@
   "private": true,
   "scripts": {
     "start": "node dist\\app.js",
-    "dev": "cross-env NODE_ENV=development webpack --watch --progress",
-    "build:dev": "cross-env NODE_ENV=production webpack",
-    "build": "cross-env NODE_ENV=development webpack"
+    "dev": "cross-env NODE_ENV=development webpack --config webpack.dev.js --watch --progress",
+    "build:dev": "cross-env NODE_ENV=production webpack --config webpack.dev.js",
+    "build": "cross-env NODE_ENV=development webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@yamdbf/core": "^4.0.0-indev.fad09cff7b11e52e2601429714d201724e2a99e7",
